@@ -5,69 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merry Christmas Nam & Thủy</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Thiết lập cơ bản */
-        body {
+        * {
             margin: 0;
             padding: 0;
-            overflow: hidden;
-            background: radial-gradient(circle at center, #1a2a6c, #b21f1f, #fdbb2d); /* Màu nền phối hợp Noel */
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow-x: hidden;
+            background: #0a192f;
+            min-height: 100vh;
             font-family: 'Quicksand', sans-serif;
             color: white;
+            position: relative;
         }
 
-        /* Hiệu ứng chuyển động nền */
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Hiệu ứng nền sao lấp lánh */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
         }
 
-        /* Khung chứa nội dung */
+        /* Container chính */
         .container {
-            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
             z-index: 10;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            max-width: 90%;
         }
 
-        /* Tiêu đề Merry Christmas */
-        h1 {
+        /* Phần tiêu đề */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+        
+        .christmas-title {
             font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            color: #ff6b6b;
+            text-shadow: 0 0 15px rgba(255, 107, 107, 0.7);
+            margin-bottom: 10px;
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 15px rgba(255, 107, 107, 0.7); }
+            to { text-shadow: 0 0 25px rgba(255, 107, 107, 0.9), 0 0 35px rgba(255, 107, 107, 0.6); }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: #a5d6a7;
+            margin-bottom: 40px;
+        }
+
+        /* Phần cặp đôi */
+        .couple-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .person {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 200px;
+        }
+        
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 4rem;
-            margin: 0;
-            text-shadow: 0 0 10px #ff0000, 0 0 20px #00ff00;
-            color: #fff;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
         }
-
-        /* Tên cặp đôi */
-        .couple-names {
+        
+        .avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .nam {
+            border-color: #4fc3f7;
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            color: #bbdefb;
+        }
+        
+        .thuy {
+            border-color: #ff8a80;
+            background: linear-gradient(135deg, #880e4f, #ad1457);
+            color: #f8bbd0;
+        }
+        
+        .name {
             font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            margin: 20px 0;
-            color: #ffcccc;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .nam-name {
+            color: #4fc3f7;
+        }
+        
+        .thuy-name {
+            color: #ff8a80;
         }
 
-        /* Trái tim đập */
+        /* Trái tim ở giữa */
+        .heart-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
         .heart {
-            display: inline-block;
             color: #ff4d4d;
-            font-size: 3.5rem;
+            font-size: 4rem;
             animation: heartbeat 1.2s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.7));
         }
-
+        
         @keyframes heartbeat {
             0% { transform: scale(1); }
             25% { transform: scale(1.1); }
@@ -75,89 +170,516 @@
             60% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
-
-        /* Lời chúc */
-        .message {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-top: 20px;
-            font-weight: 500;
+        
+        .together-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #ffcc80;
+            margin-top: 10px;
         }
 
-        /* Cây thông nhỏ trang trí */
-        .tree-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
+        /* Lời chúc */
+        .message-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #4fc3f7, #ff8a80, #a5d6a7);
+        }
+        
+        .message-title {
+            font-size: 2rem;
+            color: #ffcc80;
+            margin-bottom: 20px;
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .message-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #e3f2fd;
+        }
+        
+        .message-highlight {
+            color: #ffcc80;
+            font-weight: bold;
+        }
+
+        /* Cây thông Noel - Sử dụng ảnh GIF */
+        .tree-container {
+            margin: 40px 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .tree-gif {
+            width: 250px;
+            height: 300px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(76, 175, 80, 0.6));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* Đèn nhấp nháy xung quanh cây */
+        .light {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: lightBlink 1.5s infinite alternate;
+            z-index: 1;
+        }
+        
+        .light1 { top: 10%; left: 15%; background: #ff5252; animation-delay: 0s; }
+        .light2 { top: 20%; right: 20%; background: #4fc3f7; animation-delay: 0.3s; }
+        .light3 { top: 40%; left: 10%; background: #ffeb3b; animation-delay: 0.6s; }
+        .light4 { top: 60%; right: 15%; background: #ff8a80; animation-delay: 0.9s; }
+        .light5 { bottom: 20%; left: 20%; background: #ba68c8; animation-delay: 1.2s; }
+        
+        @keyframes lightBlink {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
         }
 
         /* Hiệu ứng tuyết rơi */
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
         .snowflake {
             position: absolute;
             top: -10px;
             color: #fff;
             font-size: 1em;
-            font-family: Arial;
-            text-shadow: 0 0 1px #000;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
             user-select: none;
-            z-index: 1;
-            pointer-events: none;
-            animation-name: fall;
+            animation-name: snowfall;
             animation-timing-function: linear;
             animation-iteration-count: infinite;
         }
-
-        @keyframes fall {
+        
+        @keyframes snowfall {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Mobile Responsive */
+        /* Nút tương tác */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            z-index: 100;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .music-control:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .greeting-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ff8a80);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-family: 'Quicksand', sans-serif;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .greeting-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        /* Phần footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #bbdefb;
+            font-size: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        /* Responsive design */
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .couple-names { font-size: 2rem; display: flex; flex-direction: column; gap: 10px;}
-            .heart { font-size: 2rem; margin: 5px 0; }
+            .christmas-title {
+                font-size: 3rem;
+            }
+            
+            .couple-section {
+                gap: 20px;
+            }
+            
+            .avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
+            
+            .name {
+                font-size: 2rem;
+            }
+            
+            .heart {
+                font-size: 3rem;
+            }
+            
+            .message-box {
+                padding: 20px;
+                margin: 20px;
+            }
+            
+            .message-title {
+                font-size: 1.7rem;
+            }
+            
+            .message-content {
+                font-size: 1.1rem;
+            }
+            
+            .tree-gif {
+                width: 200px;
+                height: 240px;
+            }
         }
     </style>
 </head>
 <body>
-
+    <!-- Nền sao lấp lánh -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Tuyết rơi -->
+    <div class="snowflakes" id="snowflakes"></div>
+    
+    <!-- Container chính -->
     <div class="container">
-        <div class="tree-icon">🎄</div>
-        <h1>Merry Christmas</h1>
-        
-        <div class="couple-names">
-            Cao Văn Nam <span class="heart">🩷</span> Nguyễn Thị Thủy
+        <div class="header">
+            <h1 class="christmas-title">Merry Christmas</h1>
+            <p class="subtitle">Chúc mừng Giáng Sinh 2024</p>
         </div>
-
-        <p class="message">
-            Chúc hai bạn một mùa Giáng Sinh an lành,<br>
-            ấm áp và tràn đầy hạnh phúc bên nhau.<br>
-            Mãi yêu thương nhé! ❄️✨
-        </p>
+        
+        <!-- Phần cặp đôi -->
+        <div class="couple-section">
+            <div class="person">
+                <div class="avatar nam">
+                    <i class="fas fa-male"></i>
+                </div>
+                <h2 class="name nam-name">Cao Văn Nam</h2>
+            </div>
+            
+            <div class="heart-connector">
+                <div class="heart">❤️</div>
+                <div class="together-text">Together Forever</div>
+            </div>
+            
+            <div class="person">
+                <div class="avatar thuy">
+                    <i class="fas fa-female"></i>
+                </div>
+                <h2 class="name thuy-name">Nguyễn Thị Thủy</h2>
+            </div>
+        </div>
+        
+        <!-- Cây thông Noel - Dùng ảnh GIF -->
+        <div class="tree-container">
+            <div class="light light1"></div>
+            <div class="light light2"></div>
+            <div class="light light3"></div>
+            <div class="light light4"></div>
+            <div class="light light5"></div>
+            <img src="./caythong.gif" alt="Cây thông Noel" class="tree-gif">
+        </div>
+        
+        <!-- Lời chúc -->
+        <div class="message-box">
+            <h3 class="message-title">Lời chúc Giáng Sinh</h3>
+            <p class="message-content">
+                Nhân dịp Giáng Sinh, chúc hai bạn <span class="message-highlight">Cao Văn Nam</span> và <span class="message-highlight">Nguyễn Thị Thủy</span> 
+                có một mùa lễ thật ấm áp, hạnh phúc bên nhau. Mong rằng tình yêu của hai bạn sẽ mãi bền chặt, 
+                cùng nhau vượt qua mọi thử thách và xây dựng một tương lai tươi sáng. <br><br>
+                
+                Chúc hai bạn luôn tràn ngập tiếng cười, sức khỏe dồi dào và gặp nhiều may mắn trong cuộc sống. 
+                Hãy luôn yêu thương, trân trọng và cùng nhau tạo nên những kỷ niệm đẹp nhé! <br><br>
+                
+                <span class="message-highlight">Merry Christmas & Happy New Year 2025!</span> 🎄🎁✨
+            </p>
+            
+            <button class="greeting-btn" id="greetingBtn">
+                <i class="fas fa-gift"></i> Gửi lời chúc đến hai bạn
+            </button>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Made with <i class="fas fa-heart" style="color:#ff4d4d;"></i> for Nam & Thủy | Merry Christmas 2024</p>
+        </div>
     </div>
-
+    
+    <!-- Nút điều khiển nhạc -->
+    <div class="music-control" id="musicControl">
+        <i class="fas fa-music"></i>
+    </div>
+    
+    <!-- Âm thanh nền -->
+    <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-christmas-fireplace-233.mp3" type="audio/mpeg">
+    </audio>
+    
     <script>
-        // Script tạo hiệu ứng tuyết rơi
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)]; // Random hình dáng tuyết
+        // Tạo hiệu ứng sao lấp lánh
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 150;
             
-            snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // Tốc độ rơi từ 2-5s
-            snowflake.style.opacity = Math.random();
-            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; // Kích thước ngẫu nhiên
-            
-            document.body.appendChild(snowflake);
-            
-            // Xóa tuyết sau khi rơi xong để tránh nặng máy
-            setTimeout(() => {
-                snowflake.remove();
-            }, 5000);
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Kích thước ngẫu nhiên
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Vị trí ngẫu nhiên
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+                
+                // Thời gian lấp lánh ngẫu nhiên
+                const duration = Math.random() * 5 + 2;
+                star.style.setProperty('--duration', `${duration}s`);
+                
+                starsContainer.appendChild(star);
+            }
         }
-
-        setInterval(createSnowflake, 100); // Tạo bông tuyết mỗi 100ms
+        
+        // Tạo hiệu ứng tuyết rơi
+        function createSnowflakes() {
+            const snowflakesContainer = document.getElementById('snowflakes');
+            const snowflakeCount = 80;
+            const snowflakeSymbols = ['❄', '❅', '❆', '•'];
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                
+                // Chọn ký hiệu ngẫu nhiên
+                const symbol = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+                snowflake.textContent = symbol;
+                
+                // Vị trí ngẫu nhiên
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                
+                // Kích thước ngẫu nhiên
+                const size = Math.random() * 20 + 10;
+                snowflake.style.fontSize = `${size}px`;
+                
+                // Tốc độ rơi ngẫu nhiên
+                const duration = Math.random() * 5 + 5;
+                snowflake.style.animationDuration = `${duration}s`;
+                
+                // Độ trễ bắt đầu ngẫu nhiên
+                const delay = Math.random() * 5;
+                snowflake.style.animationDelay = `${delay}s`;
+                
+                // Opacity ngẫu nhiên
+                snowflake.style.opacity = Math.random() * 0.7 + 0.3;
+                
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+        
+        // Xử lý nút âm nhạc
+        const musicControl = document.getElementById('musicControl');
+        const bgMusic = document.getElementById('bgMusic');
+        let isPlaying = false;
+        
+        musicControl.addEventListener('click', function() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicControl.innerHTML = '<i class="fas fa-music"></i>';
+                musicControl.style.background = 'rgba(255, 255, 255, 0.2)';
+            } else {
+                bgMusic.play();
+                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+                musicControl.style.background = 'rgba(255, 107, 107, 0.7)';
+            }
+            isPlaying = !isPlaying;
+        });
+        
+        // Xử lý nút gửi lời chúc
+        const greetingBtn = document.getElementById('greetingBtn');
+        
+        greetingBtn.addEventListener('click', function() {
+            // Thay đổi nội dung nút
+            const originalText = greetingBtn.innerHTML;
+            greetingBtn.innerHTML = '<i class="fas fa-check"></i> Đã gửi lời chúc thành công!';
+            greetingBtn.style.background = 'linear-gradient(135deg, #4CAF50, #66BB6A)';
+            greetingBtn.disabled = true;
+            
+            // Tạo hiệu ứng confetti
+            createConfetti();
+            
+            // Khôi phục nút sau 3 giây
+            setTimeout(() => {
+                greetingBtn.innerHTML = originalText;
+                greetingBtn.style.background = 'linear-gradient(135deg, #ff6b6b, #ff8a80)';
+                greetingBtn.disabled = false;
+            }, 3000);
+        });
+        
+        // Tạo hiệu ứng confetti
+        function createConfetti() {
+            const confettiCount = 100;
+            const colors = ['#ff6b6b', '#4fc3f7', '#ffeb3b', '#a5d6a7', '#ba68c8'];
+            const symbols = ['❄', '🎄', '🎁', '⭐', '❤️', '✨'];
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('snowflake'); // Sử dụng cùng class với snowflake
+                confetti.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                // Vị trí ngẫu nhiên từ trên cùng
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = '-20px';
+                
+                // Màu sắc ngẫu nhiên
+                confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Kích thước ngẫu nhiên
+                const size = Math.random() * 25 + 15;
+                confetti.style.fontSize = `${size}px`;
+                
+                // Tốc độ rơi ngẫu nhiên
+                const duration = Math.random() * 3 + 2;
+                confetti.style.animationDuration = `${duration}s`;
+                
+                // Độ trễ bắt đầu ngẫu nhiên
+                const delay = Math.random() * 0.5;
+                confetti.style.animationDelay = `${delay}s`;
+                
+                // Thêm vào body
+                document.body.appendChild(confetti);
+                
+                // Xóa sau khi hoàn thành animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, (duration + delay) * 1000);
+            }
+        }
+        
+        // Tạo hiệu ứng đèn nhấp nháy xung quanh cây
+        function createLights() {
+            const treeContainer = document.querySelector('.tree-container');
+            
+            // Đã có 5 đèn trong HTML, chỉ cần đảm bảo chúng hiển thị
+            // Không cần tạo thêm bằng JavaScript
+        }
+        
+        // Khởi tạo khi trang được tải
+        window.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            createSnowflakes();
+            createLights();
+            
+            // Phát nhạc tự động (có điều khiển)
+            setTimeout(() => {
+                if (!isPlaying) {
+                    bgMusic.volume = 0.5;
+                    bgMusic.play();
+                    isPlaying = true;
+                    musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+                    musicControl.style.background = 'rgba(255, 107, 107, 0.7)';
+                }
+            }, 1000);
+            
+            // Hiệu ứng typewriter cho tiêu đề
+            const title = document.querySelector('.christmas-title');
+            const originalText = title.textContent;
+            title.textContent = '';
+            
+            let i = 0;
+            const typeWriter = () => {
+                if (i < originalText.length) {
+                    title.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            };
+            
+            // Bắt đầu hiệu ứng typewriter sau 1 giây
+            setTimeout(typeWriter, 1000);
+            
+            // Xử lý ảnh GIF nếu không tải được
+            const treeGif = document.querySelector('.tree-gif');
+            treeGif.onerror = function() {
+                // Nếu ảnh GIF không tải được, thay thế bằng cây thông CSS
+                treeGif.style.display = 'none';
+                
+                // Tạo cây thông CSS thay thế
+                const treeFallback = document.createElement('div');
+                treeFallback.classList.add('tree-fallback');
+                treeFallback.innerHTML = `
+                    <div style="position: relative; width: 200px; height: 250px;">
+                        <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); color: #ffeb3b; font-size: 2.5rem; animation: spin 4s infinite linear;">★</div>
+                        <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 80px solid #2e7d32;"></div>
+                        <div style="position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 80px solid #388e3c;"></div>
+                        <div style="position: absolute; top: 120px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 80px solid #43a047;"></div>
+                        <div style="position: absolute; width: 30px; height: 40px; background: #8d6e63; bottom: 0; left: 50%; transform: translateX(-50%); border-radius: 5px;"></div>
+                    </div>
+                `;
+                
+                document.querySelector('.tree-container').appendChild(treeFallback);
+            };
+        });
     </script>
-
 </body>
 </html>
