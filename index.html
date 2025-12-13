@@ -1,1 +1,163 @@
-Cao Văn Nam 🩷 Nguyễn Thị Thủy
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas Nam & Thủy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        /* Thiết lập cơ bản */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1a2a6c, #b21f1f, #fdbb2d); /* Màu nền phối hợp Noel */
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Quicksand', sans-serif;
+            color: white;
+        }
+
+        /* Hiệu ứng chuyển động nền */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Khung chứa nội dung */
+        .container {
+            text-align: center;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            max-width: 90%;
+        }
+
+        /* Tiêu đề Merry Christmas */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin: 0;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #00ff00;
+            color: #fff;
+        }
+
+        /* Tên cặp đôi */
+        .couple-names {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin: 20px 0;
+            color: #ffcccc;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Trái tim đập */
+        .heart {
+            display: inline-block;
+            color: #ff4d4d;
+            font-size: 3.5rem;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Lời chúc */
+        .message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        /* Cây thông nhỏ trang trí */
+        .tree-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        /* Hiệu ứng tuyết rơi */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial;
+            text-shadow: 0 0 1px #000;
+            user-select: none;
+            z-index: 1;
+            pointer-events: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .couple-names { font-size: 2rem; display: flex; flex-direction: column; gap: 10px;}
+            .heart { font-size: 2rem; margin: 5px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="tree-icon">🎄</div>
+        <h1>Merry Christmas</h1>
+        
+        <div class="couple-names">
+            Cao Văn Nam <span class="heart">🩷</span> Nguyễn Thị Thủy
+        </div>
+
+        <p class="message">
+            Chúc hai bạn một mùa Giáng Sinh an lành,<br>
+            ấm áp và tràn đầy hạnh phúc bên nhau.<br>
+            Mãi yêu thương nhé! ❄️✨
+        </p>
+    </div>
+
+    <script>
+        // Script tạo hiệu ứng tuyết rơi
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)]; // Random hình dáng tuyết
+            
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // Tốc độ rơi từ 2-5s
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; // Kích thước ngẫu nhiên
+            
+            document.body.appendChild(snowflake);
+            
+            // Xóa tuyết sau khi rơi xong để tránh nặng máy
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        setInterval(createSnowflake, 100); // Tạo bông tuyết mỗi 100ms
+    </script>
+
+</body>
+</html>
