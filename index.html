@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title> Tặng Bé Thủy ❤️ </title>
+    <title>Tặng Bé Thủy ❤️ - Giáng Sinh An Lành</title>
     <style>
-        body { margin: 0; overflow: hidden; background-color: #000000; font-family: 'Times New Roman', serif; touch-action: none; }
+        /* NỀN ĐỎ SANG TRỌNG (Gradient từ đỏ đậm ra đen để tạo chiều sâu) */
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background: radial-gradient(circle at center, #5e0000 0%, #1a0000 100%); 
+            font-family: 'Times New Roman', serif; 
+            touch-action: none; 
+        }
         
         #canvas-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; cursor: grab; }
         #canvas-container:active { cursor: grabbing; }
         
-        /* UI Overlay - Responsive Layout */
+        /* UI Overlay */
         #ui-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 10; pointer-events: none;
@@ -30,32 +37,33 @@
         /* Loading */
         #loader {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 100;
+            background: #2b0000; /* Màu nền loading đỏ đậm */
+            z-index: 100;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.8s ease-out;
         }
         .spinner {
-            width: 40px; height: 40px; border: 1px solid rgba(212, 175, 55, 0.2); 
-            border-top: 1px solid #d4af37; border-radius: 50%; 
+            width: 40px; height: 40px; border: 1px solid rgba(255, 215, 0, 0.2); 
+            border-top: 1px solid #ffd700; border-radius: 50%; 
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .loader-text {
-            color: #d4af37; font-size: 14px; letter-spacing: 4px; margin-top: 20px;
+            color: #ffd700; font-size: 14px; letter-spacing: 4px; margin-top: 20px;
             text-transform: uppercase; font-weight: 100;
         }
 
-        /* Typography - Smart Scaling */
+        /* Typography */
         h1 { 
-            color: #fceea7; 
+            color: #fffdd0; /* Màu kem sáng để nổi trên nền đỏ */
             font-size: clamp(40px, 10vw, 90px); 
             margin: 0; font-weight: 400; 
             letter-spacing: 0.1em; 
-            text-shadow: 0 0 30px rgba(252, 238, 167, 0.6); 
-            background: linear-gradient(to bottom, #fff, #eebb66);
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5); 
+            background: linear-gradient(to bottom, #ffffff, #ffecb3);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             font-family: 'Cinzel', 'Times New Roman', serif;
-            opacity: 0.9;
+            opacity: 0.95;
             text-align: center;
             line-height: 1.2;
             pointer-events: auto; 
@@ -66,14 +74,15 @@
         #webcam { width: 100%; height: 100%; object-fit: cover; }
 
         /* Info & Guide */
-        #debug-info { position: absolute; bottom: 10px; left: 10px; color: rgba(212, 175, 55, 0.4); font-size: 10px; font-family: monospace; z-index: 50; pointer-events: none; }
+        #debug-info { position: absolute; bottom: 10px; left: 10px; color: rgba(255, 215, 0, 0.4); font-size: 10px; font-family: monospace; z-index: 50; pointer-events: none; }
         
         #guide-text { 
             position: absolute; bottom: 40px; width: 100%; text-align: center; 
-            color: #d4af37; font-size: 12px; letter-spacing: 2px; 
+            color: #ffd700; font-size: 14px; letter-spacing: 2px; 
             text-transform: uppercase; z-index: 5; pointer-events: none;
             text-shadow: 0 2px 10px #000;
             font-family: 'Cinzel', serif;
+            font-weight: bold;
         }
     </style>
     
@@ -93,13 +102,13 @@
 
     <div id="loader">
         <div class="spinner"></div>
-        <div class="loader-text">Đang Tải Tình Yêu</div>
+        <div class="loader-text">Đang Tải Tình Yêu...</div>
     </div>
 
     <div id="canvas-container"></div>
 
     <div id="ui-layer">
-        <h1>merry <br>christmas 2026</h1>
+        <h1>MERRY <br>CHRISTMAS</h1>
     </div>
 
     <div id="webcam-wrapper"><video id="webcam" autoplay playsinline></video></div>
@@ -117,7 +126,8 @@
         const isMobile = window.innerWidth < 768;
 
         const CONFIG = {
-            colors: { bg: 0x000000, champagneGold: 0xffd966, deepGreen: 0x03180a, accentRed: 0x990000 },
+            // Thay đổi màu nền sang đỏ đậm (0x330000)
+            colors: { bg: 0x330000, champagneGold: 0xffd700, deepGreen: 0x0f3b15, accentRed: 0xff0000 },
             particles: { 
                 count: isMobile ? 1000 : 2000, 
                 dustCount: isMobile ? 1200 : 2500, 
@@ -126,7 +136,6 @@
             },
             camera: { z: 50 },
             preload: {
-                // ĐÃ CẬP NHẬT ĐƯỜNG DẪN ẢNH CỤC BỘ
                 images: [
                     './images/1.jpg',
                     './images/2.jpg',
@@ -150,6 +159,7 @@
 
         let scene, camera, renderer, composer, mainGroup, clock = new THREE.Clock();
         let particleSystem = [], photoMeshGroup = new THREE.Group();
+        let snowSystem; // Biến cho hệ thống tuyết
         let handLandmarker, video, caneTexture; 
         const debugInfo = document.getElementById('debug-info');
 
@@ -159,8 +169,16 @@
         let isDragging = false;
 
         async function init() {
-            initThree(); setupEnvironment(); setupLights(); createTextures(); createParticles(); createDust();     
-            loadPredefinedImages(); setupPostProcessing(); setupEvents();
+            initThree(); 
+            setupEnvironment(); 
+            setupLights(); 
+            createTextures(); 
+            createParticles(); 
+            createDust();
+            createSnow(); // KHỞI TẠO TUYẾT RƠI      
+            loadPredefinedImages(); 
+            setupPostProcessing(); 
+            setupEvents();
             setupTouchInteractions(); 
             await initMediaPipe();    
             
@@ -169,6 +187,7 @@
             animate();
         }
 
+        // --- CÁC HÀM XỬ LÝ CẢM ỨNG ---
         function setupTouchInteractions() {
             const canvas = renderer.domElement;
 
@@ -233,6 +252,7 @@
             }
         }
 
+        // --- AI NHẬN DIỆN TAY ---
         async function initMediaPipe() {
             video = document.getElementById('webcam');
             try {
@@ -288,9 +308,15 @@
             requestAnimationFrame(predictWebcam);
         }
 
+        // --- KHỞI TẠO 3D SCENE ---
         function initThree() {
             const container = document.getElementById('canvas-container');
-            scene = new THREE.Scene(); scene.background = new THREE.Color(CONFIG.colors.bg); scene.fog = new THREE.FogExp2(CONFIG.colors.bg, 0.01); 
+            scene = new THREE.Scene(); 
+            // Màu nền Scene đồng bộ với CSS đỏ đậm
+            scene.background = new THREE.Color(CONFIG.colors.bg); 
+            // Sương mù đỏ để tạo chiều sâu
+            scene.fog = new THREE.FogExp2(CONFIG.colors.bg, 0.015); 
+            
             const fov = isMobile ? 50 : 45;
             camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, 1000); 
             camera.position.set(0, 2, CONFIG.camera.z); 
@@ -298,30 +324,91 @@
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
             renderer.setSize(window.innerWidth, window.innerHeight); 
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.toneMapping = THREE.ReinhardToneMapping; renderer.toneMappingExposure = 2.0; 
+            renderer.toneMapping = THREE.ReinhardToneMapping; 
+            renderer.toneMappingExposure = 2.0; 
             container.appendChild(renderer.domElement);
             mainGroup = new THREE.Group(); scene.add(mainGroup);
         }
+
         function setupEnvironment() { const pmremGenerator = new THREE.PMREMGenerator(renderer); scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture; }
+        
         function setupLights() {
-            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-            const inner = new THREE.PointLight(0xffaa00, 2, 20); inner.position.set(0, 5, 0); mainGroup.add(inner);
-            const s1 = new THREE.SpotLight(0xffcc66, 1200); s1.position.set(30, 40, 40); scene.add(s1);
-            const s2 = new THREE.SpotLight(0x6688ff, 600); s2.position.set(-30, 20, -30); scene.add(s2);
-            const fill = new THREE.DirectionalLight(0xffeebb, 0.8); fill.position.set(0, 0, 50); scene.add(fill);
+            // Tăng cường ánh sáng vàng ấm để hợp với nền đỏ
+            scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+            const inner = new THREE.PointLight(0xffd700, 3, 20); inner.position.set(0, 5, 0); mainGroup.add(inner);
+            const s1 = new THREE.SpotLight(0xffa500, 1500); s1.position.set(30, 40, 40); scene.add(s1); // Ánh sáng cam vàng
+            const s2 = new THREE.SpotLight(0xff69b4, 500); s2.position.set(-30, 20, -30); scene.add(s2); // Ánh sáng hồng nhẹ
+            const fill = new THREE.DirectionalLight(0xffeebb, 1.0); fill.position.set(0, 0, 50); scene.add(fill);
         }
+
         function setupPostProcessing() {
             const renderScene = new RenderPass(scene, camera);
+            // Bloom (phát sáng) mạnh hơn chút để lấp lánh trên nền đỏ
             const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-            bloomPass.threshold = 0.7; bloomPass.strength = 0.45; bloomPass.radius = 0.4;
+            bloomPass.threshold = 0.6; bloomPass.strength = 0.5; bloomPass.radius = 0.5;
             composer = new EffectComposer(renderer); composer.addPass(renderScene); composer.addPass(bloomPass);
         }
+
         function createTextures() {
             const c = document.createElement('canvas'); c.width=128; c.height=128; const ctx=c.getContext('2d');
-            ctx.fillStyle='#fff'; ctx.fillRect(0,0,128,128); ctx.fillStyle='#800'; ctx.beginPath();
+            ctx.fillStyle='#fff'; ctx.fillRect(0,0,128,128); ctx.fillStyle='#d40000'; ctx.beginPath(); // Đổi sọc kẹo sang đỏ tươi
             for(let i=-128;i<256;i+=32){ctx.moveTo(i,0);ctx.lineTo(i+32,128);ctx.lineTo(i+16,128);ctx.lineTo(i-16,0);} ctx.fill();
             caneTexture = new THREE.CanvasTexture(c); caneTexture.wrapS=caneTexture.wrapT=THREE.RepeatWrapping; caneTexture.repeat.set(3,3);
         }
+
+        // --- HỆ THỐNG TUYẾT RƠI (NEW) ---
+        function createSnow() {
+            const particleCount = isMobile ? 800 : 1500;
+            const geom = new THREE.BufferGeometry();
+            const positions = [];
+            const velocities = []; // Tốc độ rơi riêng cho từng bông tuyết
+
+            for (let i = 0; i < particleCount; i++) {
+                positions.push((Math.random() - 0.5) * 100); // x: rộng ra
+                positions.push((Math.random() - 0.5) * 100); // y: cao
+                positions.push((Math.random() - 0.5) * 80);  // z: sâu
+                velocities.push(0.05 + Math.random() * 0.1); // Tốc độ ngẫu nhiên
+            }
+
+            geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            
+            // Lưu vận tốc vào geometry để dùng trong animate
+            geom.userData = { velocities: velocities };
+
+            const material = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 0.4,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            snowSystem = new THREE.Points(geom, material);
+            scene.add(snowSystem);
+        }
+
+        function updateSnow() {
+            if (!snowSystem) return;
+            const positions = snowSystem.geometry.attributes.position.array;
+            const velocities = snowSystem.geometry.userData.velocities;
+
+            for (let i = 0; i < positions.length / 3; i++) {
+                // Giảm Y (rơi xuống)
+                positions[i * 3 + 1] -= velocities[i];
+
+                // Hiệu ứng gió nhẹ (đung đưa theo X)
+                positions[i * 3] += Math.sin(clock.elapsedTime + positions[i * 3 + 1]) * 0.02;
+
+                // Nếu chạm đáy (-40), reset lên đỉnh (+40)
+                if (positions[i * 3 + 1] < -40) {
+                    positions[i * 3 + 1] = 40;
+                    positions[i * 3] = (Math.random() - 0.5) * 100; // Reset vị trí X ngẫu nhiên
+                }
+            }
+            snowSystem.geometry.attributes.position.needsUpdate = true;
+        }
+
+        // --- CÁC ĐỐI TƯỢNG CŨ (HẠT, ẢNH) ---
         class Particle {
             constructor(m, t, d=false) { this.mesh=m; this.type=t; this.isDust=d; this.posTree=new THREE.Vector3(); this.posScatter=new THREE.Vector3(); this.baseScale=m.scale.x; this.spinSpeed=new THREE.Vector3(Math.random()-0.5,Math.random()-0.5,Math.random()-0.5).multiplyScalar(t==='PHOTO'?0.3:2.0); this.calculatePositions(); }
             calculatePositions() {
@@ -377,7 +464,8 @@
             star.position.set(0,CONFIG.particles.treeHeight/2+1.2,0); mainGroup.add(star); mainGroup.add(photoMeshGroup);
         }
         function createDust(){
-            const m=new THREE.MeshBasicMaterial({color:0xffeebb,transparent:true,opacity:0.8}), g=new THREE.TetrahedronGeometry(0.08);
+            // Bụi vàng lấp lánh
+            const m=new THREE.MeshBasicMaterial({color:0xffd700,transparent:true,opacity:0.6}), g=new THREE.TetrahedronGeometry(0.08);
             for(let i=0;i<CONFIG.particles.dustCount;i++){const me=new THREE.Mesh(g,m); me.scale.setScalar(0.5+Math.random()); mainGroup.add(me); particleSystem.push(new Particle(me,'DUST',true));}
         }
         function addPhotoToScene(t){
@@ -403,6 +491,9 @@
             requestAnimationFrame(animate);
             const dt = clock.getDelta();
             
+            // Cập nhật tuyết rơi
+            updateSnow();
+
             if (STATE.mode === 'SCATTER' && STATE.hand.detected) {
                 STATE.rotation.y += (STATE.hand.x * Math.PI * 0.9 - STATE.rotation.y) * 3.0 * dt;
                 STATE.rotation.x += (STATE.hand.y * Math.PI * 0.25 - STATE.rotation.x) * 3.0 * dt;
