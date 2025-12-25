@@ -1,685 +1,420 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merry Christmas Nam & Thủy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Grand Luxury Tree - Local Images</title>
     <style>
-        /* Thiết lập cơ bản */
-        * {
-            margin: 0;
-            padding: 0;
+        body { margin: 0; overflow: hidden; background-color: #000000; font-family: 'Times New Roman', serif; touch-action: none; }
+        
+        #canvas-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; cursor: grab; }
+        #canvas-container:active { cursor: grabbing; }
+        
+        /* UI Overlay - Responsive Layout */
+        #ui-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10; pointer-events: none;
+            display: flex; flex-direction: column; 
+            align-items: center;
+            padding-top: 15vh; 
             box-sizing: border-box;
-        }
-        
-        body {
-            overflow-x: hidden;
-            background: #0a192f;
-            min-height: 100vh;
-            font-family: 'Quicksand', sans-serif;
-            color: white;
-            position: relative;
+            transition: opacity 0.5s ease;
         }
 
-        /* Hiệu ứng nền sao lấp lánh */
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
+        @media (min-width: 768px) {
+            #ui-layer { padding-top: 8vh; }
         }
         
-        .star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            animation: twinkle var(--duration) infinite ease-in-out;
+        .ui-hidden { opacity: 0 !important; pointer-events: none !important; }
+
+        /* Loading */
+        #loader {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 100;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease-out;
         }
-        
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
+        .spinner {
+            width: 40px; height: 40px; border: 1px solid rgba(212, 175, 55, 0.2); 
+            border-top: 1px solid #d4af37; border-radius: 50%; 
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader-text {
+            color: #d4af37; font-size: 14px; letter-spacing: 4px; margin-top: 20px;
+            text-transform: uppercase; font-weight: 100;
         }
 
-        /* Container chính */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Phần tiêu đề */
-        .header {
+        /* Typography - Smart Scaling */
+        h1 { 
+            color: #fceea7; 
+            font-size: clamp(40px, 10vw, 90px); 
+            margin: 0; font-weight: 400; 
+            letter-spacing: 0.1em; 
+            text-shadow: 0 0 30px rgba(252, 238, 167, 0.6); 
+            background: linear-gradient(to bottom, #fff, #eebb66);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            opacity: 0.9;
             text-align: center;
-            margin-bottom: 40px;
-            width: 100%;
-        }
-        
-        .christmas-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 4.5rem;
-            color: #ff6b6b;
-            text-shadow: 0 0 15px rgba(255, 107, 107, 0.7);
-            margin-bottom: 10px;
-            animation: glow 2s infinite alternate;
-        }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 15px rgba(255, 107, 107, 0.7); }
-            to { text-shadow: 0 0 25px rgba(255, 107, 107, 0.9), 0 0 35px rgba(255, 107, 107, 0.6); }
-        }
-        
-        .subtitle {
-            font-size: 1.5rem;
-            color: #a5d6a7;
-            margin-bottom: 40px;
+            line-height: 1.2;
+            pointer-events: auto; 
         }
 
-        /* Phần cặp đôi */
-        .couple-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 50px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-        
-        .person {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 200px;
-        }
-        
-        .avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            transition: transform 0.3s ease;
-        }
-        
-        .avatar:hover {
-            transform: scale(1.05);
-        }
-        
-        .nam {
-            border-color: #4fc3f7;
-            background: linear-gradient(135deg, #1a237e, #0d47a1);
-            color: #bbdefb;
-        }
-        
-        .thuy {
-            border-color: #ff8a80;
-            background: linear-gradient(135deg, #880e4f, #ad1457);
-            color: #f8bbd0;
-        }
-        
-        .name {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        
-        .nam-name {
-            color: #4fc3f7;
-        }
-        
-        .thuy-name {
-            color: #ff8a80;
-        }
+        /* HIDDEN WEBCAM */
+        #webcam-wrapper { position: fixed; bottom: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; z-index: -100; overflow: hidden; }
+        #webcam { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Trái tim ở giữa */
-        .heart-connector {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        /* Info & Guide */
+        #debug-info { position: absolute; bottom: 10px; left: 10px; color: rgba(212, 175, 55, 0.4); font-size: 10px; font-family: monospace; z-index: 50; pointer-events: none; }
         
-        .heart {
-            color: #ff4d4d;
-            font-size: 4rem;
-            animation: heartbeat 1.2s infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.7));
-        }
-        
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.1); }
-            40% { transform: scale(1); }
-            60% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        .together-text {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-            color: #ffcc80;
-            margin-top: 10px;
-        }
-
-        /* Lời chúc */
-        .message-box {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 800px;
-            margin: 40px auto;
-            text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .message-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #4fc3f7, #ff8a80, #a5d6a7);
-        }
-        
-        .message-title {
-            font-size: 2rem;
-            color: #ffcc80;
-            margin-bottom: 20px;
-            font-family: 'Dancing Script', cursive;
-        }
-        
-        .message-content {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #e3f2fd;
-        }
-        
-        .message-highlight {
-            color: #ffcc80;
-            font-weight: bold;
-        }
-
-        /* Cây thông Noel - Sử dụng ảnh GIF */
-        .tree-container {
-            margin: 40px 0;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .tree-gif {
-            width: 250px;
-            height: 300px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(76, 175, 80, 0.6));
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        
-        /* Đèn nhấp nháy xung quanh cây */
-        .light {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            filter: blur(2px);
-            animation: lightBlink 1.5s infinite alternate;
-            z-index: 1;
-        }
-        
-        .light1 { top: 10%; left: 15%; background: #ff5252; animation-delay: 0s; }
-        .light2 { top: 20%; right: 20%; background: #4fc3f7; animation-delay: 0.3s; }
-        .light3 { top: 40%; left: 10%; background: #ffeb3b; animation-delay: 0.6s; }
-        .light4 { top: 60%; right: 15%; background: #ff8a80; animation-delay: 0.9s; }
-        .light5 { bottom: 20%; left: 20%; background: #ba68c8; animation-delay: 1.2s; }
-        
-        @keyframes lightBlink {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* Hiệu ứng tuyết rơi */
-        .snowflakes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: #fff;
-            font-size: 1em;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
-            user-select: none;
-            animation-name: snowfall;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
-        
-        @keyframes snowfall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Nút tương tác */
-        .music-control {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: white;
-            z-index: 100;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-        
-        .music-control:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-        
-        .greeting-btn {
-            background: linear-gradient(135deg, #ff6b6b, #ff8a80);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            font-family: 'Quicksand', sans-serif;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-        
-        .greeting-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.6);
-        }
-
-        /* Phần footer */
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #bbdefb;
-            font-size: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .christmas-title {
-                font-size: 3rem;
-            }
-            
-            .couple-section {
-                gap: 20px;
-            }
-            
-            .avatar {
-                width: 120px;
-                height: 120px;
-                font-size: 3rem;
-            }
-            
-            .name {
-                font-size: 2rem;
-            }
-            
-            .heart {
-                font-size: 3rem;
-            }
-            
-            .message-box {
-                padding: 20px;
-                margin: 20px;
-            }
-            
-            .message-title {
-                font-size: 1.7rem;
-            }
-            
-            .message-content {
-                font-size: 1.1rem;
-            }
-            
-            .tree-gif {
-                width: 200px;
-                height: 240px;
-            }
+        #guide-text { 
+            position: absolute; bottom: 40px; width: 100%; text-align: center; 
+            color: #d4af37; font-size: 12px; letter-spacing: 2px; 
+            text-transform: uppercase; z-index: 5; pointer-events: none;
+            text-shadow: 0 2px 10px #000;
+            font-family: 'Cinzel', serif;
         }
     </style>
+    
+    <style> @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap'); </style>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+                "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/+esm"
+            }
+        }
+    </script>
 </head>
 <body>
-    <!-- Nền sao lấp lánh -->
-    <div class="stars" id="stars"></div>
-    
-    <!-- Tuyết rơi -->
-    <div class="snowflakes" id="snowflakes"></div>
-    
-    <!-- Container chính -->
-    <div class="container">
-        <div class="header">
-            <h1 class="christmas-title">Merry Christmas</h1>
-            <p class="subtitle">Chúc mừng Giáng Sinh 2025</p>
-        </div>
-        
-        <!-- Phần cặp đôi -->
-        <div class="couple-section">
-            <div class="person">
-                <div class="avatar nam">
-                    <i class="fas fa-male"></i>
-                </div>
-                <h2 class="name nam-name">Cao Văn Nam</h2>
-            </div>
-            
-            <div class="heart-connector">
-                <div class="heart">❤️</div>
-                <div class="together-text">Together Forever</div>
-            </div>
-            
-            <div class="person">
-                <div class="avatar thuy">
-                    <i class="fas fa-female"></i>
-                </div>
-                <h2 class="name thuy-name">Nguyễn Thị Thủy</h2>
-            </div>
-        </div>
-        
-        <!-- Cây thông Noel - Dùng ảnh GIF -->
-        <div class="tree-container">
-            <div class="light light1"></div>
-            <div class="light light2"></div>
-            <div class="light light3"></div>
-            <div class="light light4"></div>
-            <div class="light light5"></div>
-            <img src="./caythong.gif" alt="Cây thông Noel" class="tree-gif">
-        </div>
-        
-        <!-- Lời chúc -->
-        <div class="message-box">
-            <h3 class="message-title">Lời chúc Giáng Sinh</h3>
-            <p class="message-content">
-                Nhân dịp Giáng Sinh, chúc hai bạn <span class="message-highlight">Cao Văn Nam</span> và <span class="message-highlight">Nguyễn Thị Thủy</span> 
-                có một mùa lễ thật ấm áp, hạnh phúc bên nhau. Mong rằng tình yêu của hai bạn sẽ mãi bền chặt, 
-                cùng nhau vượt qua mọi thử thách và xây dựng một tương lai tươi sáng. <br><br>
-                
-                Chúc hai bạn luôn tràn ngập tiếng cười, sức khỏe dồi dào và gặp nhiều may mắn trong cuộc sống. 
-                Hãy luôn yêu thương, trân trọng và cùng nhau tạo nên những kỷ niệm đẹp nhé! <br><br>
-                
-                <span class="message-highlight">Merry Christmas & Happy New Year 2025!</span> 🎄🎁✨
-            </p>
-            
-            <button class="greeting-btn" id="greetingBtn">
-                <i class="fas fa-gift"></i> Gửi lời chúc đến hai bạn
-            </button>
-        </div>
-        
-        <!-- Footer -->
-        <div class="footer">
-            <p>Made with <i class="fas fa-heart" style="color:#ff4d4d;"></i> for Nam & Thủy | Merry Christmas 2024</p>
-        </div>
+
+    <div id="loader">
+        <div class="spinner"></div>
+        <div class="loader-text">Loading Memories...</div>
     </div>
-    
-    <!-- Nút điều khiển nhạc -->
-    <div class="music-control" id="musicControl">
-        <i class="fas fa-music"></i>
+
+    <div id="canvas-container"></div>
+
+    <div id="ui-layer">
+        <h1>BIN NA<br>RECAP 2025</h1>
     </div>
-    
-    <!-- Âm thanh nền -->
-    <audio id="bgMusic" loop>
-        <source src="https://assets.mixkit.co/music/preview/mixkit-christmas-fireplace-233.mp3" type="audio/mpeg">
-    </audio>
-    
-    <script>
-        // Tạo hiệu ứng sao lấp lánh
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const starCount = 150;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                
-                // Kích thước ngẫu nhiên
-                const size = Math.random() * 3 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                
-                // Vị trí ngẫu nhiên
-                star.style.left = `${Math.random() * 100}vw`;
-                star.style.top = `${Math.random() * 100}vh`;
-                
-                // Thời gian lấp lánh ngẫu nhiên
-                const duration = Math.random() * 5 + 2;
-                star.style.setProperty('--duration', `${duration}s`);
-                
-                starsContainer.appendChild(star);
+
+    <div id="webcam-wrapper"><video id="webcam" autoplay playsinline></video></div>
+    <div id="debug-info">Initializing AI...</div>
+    <div id="guide-text">CAO VĂN NAM ❤️ NGUYỄN THỊ THỦY</div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'; 
+        import { FilesetResolver, HandLandmarker } from '@mediapipe/tasks-vision';
+
+        const isMobile = window.innerWidth < 768;
+
+        const CONFIG = {
+            colors: { bg: 0x000000, champagneGold: 0xffd966, deepGreen: 0x03180a, accentRed: 0x990000 },
+            particles: { 
+                count: isMobile ? 1000 : 2000, 
+                dustCount: isMobile ? 1200 : 2500, 
+                treeHeight: 24, 
+                treeRadius: 8 
+            },
+            camera: { z: 50 },
+            preload: {
+                // ĐÃ CẬP NHẬT ĐƯỜNG DẪN ẢNH CỤC BỘ
+                images: [
+                    './images/1.jpg',
+                    './images/2.jpg',
+                    './images/3.jpg',
+                    './images/4.jpg'
+                ]
             }
-        }
-        
-        // Tạo hiệu ứng tuyết rơi
-        function createSnowflakes() {
-            const snowflakesContainer = document.getElementById('snowflakes');
-            const snowflakeCount = 80;
-            const snowflakeSymbols = ['❄', '❅', '❆', '•'];
+        };
+
+        const STATE = {
+            mode: 'TREE', 
+            focusTarget: null,
+            hand: { detected: false, x: 0, y: 0 },
+            rotation: { x: 0, y: 0 },
+            isUserRotating: false
+        };
+
+        let scene, camera, renderer, composer, mainGroup, clock = new THREE.Clock();
+        let particleSystem = [], photoMeshGroup = new THREE.Group();
+        let handLandmarker, video, caneTexture; 
+        const debugInfo = document.getElementById('debug-info');
+
+        let clickTimer = null;
+        let lastPointerDownTime = 0;
+        let lastPointerPosition = { x: 0, y: 0 }; 
+        let isDragging = false;
+
+        async function init() {
+            initThree(); setupEnvironment(); setupLights(); createTextures(); createParticles(); createDust();     
+            loadPredefinedImages(); setupPostProcessing(); setupEvents();
+            setupTouchInteractions(); 
+            await initMediaPipe();    
             
-            for (let i = 0; i < snowflakeCount; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.classList.add('snowflake');
-                
-                // Chọn ký hiệu ngẫu nhiên
-                const symbol = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
-                snowflake.textContent = symbol;
-                
-                // Vị trí ngẫu nhiên
-                snowflake.style.left = `${Math.random() * 100}vw`;
-                
-                // Kích thước ngẫu nhiên
-                const size = Math.random() * 20 + 10;
-                snowflake.style.fontSize = `${size}px`;
-                
-                // Tốc độ rơi ngẫu nhiên
-                const duration = Math.random() * 5 + 5;
-                snowflake.style.animationDuration = `${duration}s`;
-                
-                // Độ trễ bắt đầu ngẫu nhiên
-                const delay = Math.random() * 5;
-                snowflake.style.animationDelay = `${delay}s`;
-                
-                // Opacity ngẫu nhiên
-                snowflake.style.opacity = Math.random() * 0.7 + 0.3;
-                
-                snowflakesContainer.appendChild(snowflake);
-            }
+            document.getElementById('loader').style.opacity = 0;
+            setTimeout(() => document.getElementById('loader').remove(), 800);
+            animate();
         }
-        
-        // Xử lý nút âm nhạc
-        const musicControl = document.getElementById('musicControl');
-        const bgMusic = document.getElementById('bgMusic');
-        let isPlaying = false;
-        
-        musicControl.addEventListener('click', function() {
-            if (isPlaying) {
-                bgMusic.pause();
-                musicControl.innerHTML = '<i class="fas fa-music"></i>';
-                musicControl.style.background = 'rgba(255, 255, 255, 0.2)';
+
+        function setupTouchInteractions() {
+            const canvas = renderer.domElement;
+
+            canvas.addEventListener('pointerdown', (e) => {
+                isDragging = false;
+                STATE.isUserRotating = true;
+                lastPointerDownTime = performance.now();
+                lastPointerPosition = { x: e.clientX, y: e.clientY };
+            });
+
+            canvas.addEventListener('pointermove', (e) => {
+                if (STATE.isUserRotating && !STATE.hand.detected) {
+                    const deltaX = e.clientX - lastPointerPosition.x;
+                    const deltaY = e.clientY - lastPointerPosition.y;
+                    
+                    const sens = isMobile ? 0.008 : 0.004; 
+                    STATE.rotation.y += deltaX * sens;
+                    STATE.rotation.x += deltaY * sens;
+
+                    lastPointerPosition = { x: e.clientX, y: e.clientY };
+
+                    if (performance.now() - lastPointerDownTime > 150 || Math.abs(deltaX) > 3) {
+                        isDragging = true; 
+                    }
+                }
+            });
+
+            const endDrag = () => {
+                STATE.isUserRotating = false; 
+                if (isDragging) return; 
+
+                const now = performance.now();
+                if (now - lastPointerDownTime > 300) return; 
+
+                if (clickTimer === null) {
+                    clickTimer = setTimeout(() => { clickTimer = null; handleSingleTap(); }, 250); 
+                } else {
+                    clearTimeout(clickTimer); clickTimer = null; handleDoubleTap();
+                }
+            };
+
+            canvas.addEventListener('pointerup', endDrag);
+            canvas.addEventListener('pointerleave', endDrag);
+        }
+
+        function handleSingleTap() {
+            if (STATE.hand.detected || STATE.mode === 'FOCUS') return;
+            STATE.mode = (STATE.mode === 'TREE') ? 'SCATTER' : 'TREE';
+        }
+
+        function handleDoubleTap() {
+             if (STATE.hand.detected) return;
+            if (STATE.mode === 'FOCUS') {
+                STATE.mode = 'TREE'; STATE.focusTarget = null;
             } else {
-                bgMusic.play();
-                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
-                musicControl.style.background = 'rgba(255, 107, 107, 0.7)';
-            }
-            isPlaying = !isPlaying;
-        });
-        
-        // Xử lý nút gửi lời chúc
-        const greetingBtn = document.getElementById('greetingBtn');
-        
-        greetingBtn.addEventListener('click', function() {
-            // Thay đổi nội dung nút
-            const originalText = greetingBtn.innerHTML;
-            greetingBtn.innerHTML = '<i class="fas fa-check"></i> Đã gửi lời chúc thành công!';
-            greetingBtn.style.background = 'linear-gradient(135deg, #4CAF50, #66BB6A)';
-            greetingBtn.disabled = true;
-            
-            // Tạo hiệu ứng confetti
-            createConfetti();
-            
-            // Khôi phục nút sau 3 giây
-            setTimeout(() => {
-                greetingBtn.innerHTML = originalText;
-                greetingBtn.style.background = 'linear-gradient(135deg, #ff6b6b, #ff8a80)';
-                greetingBtn.disabled = false;
-            }, 3000);
-        });
-        
-        // Tạo hiệu ứng confetti
-        function createConfetti() {
-            const confettiCount = 100;
-            const colors = ['#ff6b6b', '#4fc3f7', '#ffeb3b', '#a5d6a7', '#ba68c8'];
-            const symbols = ['❄', '🎄', '🎁', '⭐', '❤️', '✨'];
-            
-            for (let i = 0; i < confettiCount; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('snowflake'); // Sử dụng cùng class với snowflake
-                confetti.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                
-                // Vị trí ngẫu nhiên từ trên cùng
-                confetti.style.left = `${Math.random() * 100}vw`;
-                confetti.style.top = '-20px';
-                
-                // Màu sắc ngẫu nhiên
-                confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Kích thước ngẫu nhiên
-                const size = Math.random() * 25 + 15;
-                confetti.style.fontSize = `${size}px`;
-                
-                // Tốc độ rơi ngẫu nhiên
-                const duration = Math.random() * 3 + 2;
-                confetti.style.animationDuration = `${duration}s`;
-                
-                // Độ trễ bắt đầu ngẫu nhiên
-                const delay = Math.random() * 0.5;
-                confetti.style.animationDelay = `${delay}s`;
-                
-                // Thêm vào body
-                document.body.appendChild(confetti);
-                
-                // Xóa sau khi hoàn thành animation
-                setTimeout(() => {
-                    confetti.remove();
-                }, (duration + delay) * 1000);
+                const photos = particleSystem.filter(p => p.type === 'PHOTO');
+                if (photos.length > 0) {
+                    const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
+                    STATE.focusTarget = randomPhoto.mesh;
+                    STATE.mode = 'FOCUS';
+                }
             }
         }
-        
-        // Tạo hiệu ứng đèn nhấp nháy xung quanh cây
-        function createLights() {
-            const treeContainer = document.querySelector('.tree-container');
-            
-            // Đã có 5 đèn trong HTML, chỉ cần đảm bảo chúng hiển thị
-            // Không cần tạo thêm bằng JavaScript
+
+        async function initMediaPipe() {
+            video = document.getElementById('webcam');
+            try {
+                const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm");
+                handLandmarker = await HandLandmarker.createFromOptions(vision, {
+                    baseOptions: { modelAssetPath: `https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task`, delegate: "GPU" },
+                    runningMode: "VIDEO", numHands: 1
+                });
+                if (navigator.mediaDevices?.getUserMedia) {
+                    const stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { 
+                            facingMode: "user",
+                            width: { ideal: 640 }, height: { ideal: 480 } 
+                        } 
+                    });
+                    video.srcObject = stream;
+                    video.addEventListener("loadeddata", predictWebcam);
+                    debugInfo.innerText = "AI Ready";
+                }
+            } catch (e) { debugInfo.innerText = "Standard Mode"; }
         }
-        
-        // Khởi tạo khi trang được tải
-        window.addEventListener('DOMContentLoaded', function() {
-            createStars();
-            createSnowflakes();
-            createLights();
-            
-            // Phát nhạc tự động (có điều khiển)
-            setTimeout(() => {
-                if (!isPlaying) {
-                    bgMusic.volume = 0.5;
-                    bgMusic.play();
-                    isPlaying = true;
-                    musicControl.innerHTML = '<i class="fas fa-pause"></i>';
-                    musicControl.style.background = 'rgba(255, 107, 107, 0.7)';
+
+        let lastVideoTime = -1;
+        async function predictWebcam() {
+            if (video.currentTime !== lastVideoTime) {
+                lastVideoTime = video.currentTime;
+                if (handLandmarker) {
+                    const result = handLandmarker.detectForVideo(video, performance.now());
+                    if (result.landmarks && result.landmarks.length > 0) {
+                        STATE.hand.detected = true;
+                        const lm = result.landmarks[0];
+                        STATE.hand.x = (lm[9].x - 0.5) * 2; 
+                        STATE.hand.y = (lm[9].y - 0.5) * 2;
+                        
+                        const wrist=lm[0], middle=lm[9];
+                        const size = Math.hypot(middle.x-wrist.x, middle.y-wrist.y);
+                        let tips=[lm[8],lm[12],lm[16],lm[20]], avg=0;
+                        tips.forEach(t=>avg+=Math.hypot(t.x-wrist.x,t.y-wrist.y));
+                        const ext = (avg/4)/size;
+                        const pinch = Math.hypot(lm[4].x-lm[8].x, lm[4].y-lm[8].y)/size;
+
+                        if(ext<1.5){ STATE.mode='TREE'; STATE.focusTarget=null; debugInfo.innerText="Hand: Fist"; }
+                        else if(pinch<0.35){ 
+                            if(STATE.mode!=='FOCUS'){ STATE.mode='FOCUS'; const p=particleSystem.filter(x=>x.type==='PHOTO'); if(p.length) STATE.focusTarget=p[Math.floor(Math.random()*p.length)].mesh; }
+                            debugInfo.innerText="Hand: Pinch";
+                        } else if(ext>1.7){ STATE.mode='SCATTER'; STATE.focusTarget=null; debugInfo.innerText="Hand: Open"; }
+                    } else {
+                        STATE.hand.detected = false;
+                        debugInfo.innerText = "Touch Mode";
+                    }
                 }
-            }, 1000);
+            }
+            requestAnimationFrame(predictWebcam);
+        }
+
+        function initThree() {
+            const container = document.getElementById('canvas-container');
+            scene = new THREE.Scene(); scene.background = new THREE.Color(CONFIG.colors.bg); scene.fog = new THREE.FogExp2(CONFIG.colors.bg, 0.01); 
+            const fov = isMobile ? 50 : 45;
+            camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, 1000); 
+            camera.position.set(0, 2, CONFIG.camera.z); 
             
-            // Hiệu ứng typewriter cho tiêu đề
-            const title = document.querySelector('.christmas-title');
-            const originalText = title.textContent;
-            title.textContent = '';
-            
-            let i = 0;
-            const typeWriter = () => {
-                if (i < originalText.length) {
-                    title.textContent += originalText.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 100);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
+            renderer.setSize(window.innerWidth, window.innerHeight); 
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ReinhardToneMapping; renderer.toneMappingExposure = 2.0; 
+            container.appendChild(renderer.domElement);
+            mainGroup = new THREE.Group(); scene.add(mainGroup);
+        }
+        function setupEnvironment() { const pmremGenerator = new THREE.PMREMGenerator(renderer); scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture; }
+        function setupLights() {
+            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+            const inner = new THREE.PointLight(0xffaa00, 2, 20); inner.position.set(0, 5, 0); mainGroup.add(inner);
+            const s1 = new THREE.SpotLight(0xffcc66, 1200); s1.position.set(30, 40, 40); scene.add(s1);
+            const s2 = new THREE.SpotLight(0x6688ff, 600); s2.position.set(-30, 20, -30); scene.add(s2);
+            const fill = new THREE.DirectionalLight(0xffeebb, 0.8); fill.position.set(0, 0, 50); scene.add(fill);
+        }
+        function setupPostProcessing() {
+            const renderScene = new RenderPass(scene, camera);
+            const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+            bloomPass.threshold = 0.7; bloomPass.strength = 0.45; bloomPass.radius = 0.4;
+            composer = new EffectComposer(renderer); composer.addPass(renderScene); composer.addPass(bloomPass);
+        }
+        function createTextures() {
+            const c = document.createElement('canvas'); c.width=128; c.height=128; const ctx=c.getContext('2d');
+            ctx.fillStyle='#fff'; ctx.fillRect(0,0,128,128); ctx.fillStyle='#800'; ctx.beginPath();
+            for(let i=-128;i<256;i+=32){ctx.moveTo(i,0);ctx.lineTo(i+32,128);ctx.lineTo(i+16,128);ctx.lineTo(i-16,0);} ctx.fill();
+            caneTexture = new THREE.CanvasTexture(c); caneTexture.wrapS=caneTexture.wrapT=THREE.RepeatWrapping; caneTexture.repeat.set(3,3);
+        }
+        class Particle {
+            constructor(m, t, d=false) { this.mesh=m; this.type=t; this.isDust=d; this.posTree=new THREE.Vector3(); this.posScatter=new THREE.Vector3(); this.baseScale=m.scale.x; this.spinSpeed=new THREE.Vector3(Math.random()-0.5,Math.random()-0.5,Math.random()-0.5).multiplyScalar(t==='PHOTO'?0.3:2.0); this.calculatePositions(); }
+            calculatePositions() {
+                if(this.type==='PHOTO'){
+                    this.posTree.set(0,0,0); const r=8+Math.random()*12, th=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
+                    this.posScatter.set(r*Math.sin(ph)*Math.cos(th), r*Math.sin(ph)*Math.sin(th), r*Math.cos(ph)); return;
                 }
-            };
+                const h=CONFIG.particles.treeHeight, t=Math.pow(Math.random(),0.8), y=(t*h)-h/2, rMax=Math.max(0.5, CONFIG.particles.treeRadius*(1.0-t));
+                const a=t*50*Math.PI+Math.random()*Math.PI, r=rMax*(0.8+Math.random()*0.4);
+                this.posTree.set(Math.cos(a)*r, y, Math.sin(a)*r);
+                const rs=this.isDust?(12+Math.random()*20):(8+Math.random()*12), th=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
+                this.posScatter.set(rs*Math.sin(ph)*Math.cos(th), rs*Math.sin(ph)*Math.sin(th), rs*Math.cos(ph));
+            }
+            update(dt, mode, focusTargetMesh) {
+                let target = this.posTree;
+                if (mode === 'SCATTER') target = this.posScatter;
+                else if (mode === 'FOCUS') {
+                    if (this.mesh === focusTargetMesh) {
+                        const desiredWorldPos = new THREE.Vector3(0, 2, 35);
+                        const invMatrix = new THREE.Matrix4().copy(mainGroup.matrixWorld).invert();
+                        target = desiredWorldPos.applyMatrix4(invMatrix);
+                    } else target = this.posScatter;
+                }
+                const speed = (mode === 'FOCUS' && this.mesh === focusTargetMesh) ? 5.0 : 2.0;
+                this.mesh.position.lerp(target, speed * dt);
+
+                if(mode==='SCATTER'){ this.mesh.rotation.x+=this.spinSpeed.x*dt; this.mesh.rotation.y+=this.spinSpeed.y*dt; }
+                else if(mode==='TREE'){ 
+                    if(this.type==='PHOTO'){ this.mesh.lookAt(0,this.mesh.position.y,0); this.mesh.rotateY(Math.PI); }
+                    else { this.mesh.rotation.x*=0.9; this.mesh.rotation.z*=0.9; this.mesh.rotation.y+=0.5*dt; }
+                }
+                if(mode==='FOCUS' && this.mesh===focusTargetMesh) this.mesh.lookAt(camera.position);
+
+                let s = this.baseScale;
+                if(this.isDust) { s=this.baseScale*(0.8+0.4*Math.sin(clock.elapsedTime*4+this.mesh.id)); if(mode==='TREE') s=0; }
+                else if(mode==='SCATTER' && this.type==='PHOTO') s=this.baseScale*2.5;
+                else if(mode==='FOCUS') s=(this.mesh===focusTargetMesh)?4.5:this.baseScale*0.8;
+                this.mesh.scale.lerp(new THREE.Vector3(s,s,s), 4*dt);
+            }
+        }
+        function createParticles() {
+            const sphere=new THREE.SphereGeometry(0.5,32,32), box=new THREE.BoxGeometry(0.55,0.55,0.55);
+            const cane=new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(0,-0.5,0),new THREE.Vector3(0,0.3,0),new THREE.Vector3(0.1,0.5,0),new THREE.Vector3(0.3,0.4,0)]),16,0.08,8,false);
+            const mGold=new THREE.MeshStandardMaterial({color:CONFIG.colors.champagneGold, metalness:1, roughness:0.1, envMapIntensity:2}), mGreen=new THREE.MeshStandardMaterial({color:CONFIG.colors.deepGreen, metalness:0.2, roughness:0.8}), mRed=new THREE.MeshPhysicalMaterial({color:CONFIG.colors.accentRed, metalness:0.3, roughness:0.2, clearcoat:1}), mCane=new THREE.MeshStandardMaterial({map:caneTexture, roughness:0.4});
+            for(let i=0;i<CONFIG.particles.count;i++){
+                let r=Math.random(), m, t;
+                if(r<0.4){m=new THREE.Mesh(box,mGreen);t='BOX';} else if(r<0.7){m=new THREE.Mesh(box,mGold);t='GOLD_BOX';} else if(r<0.92){m=new THREE.Mesh(sphere,mGold);t='GOLD_SPHERE';} else if(r<0.97){m=new THREE.Mesh(sphere,mRed);t='RED';} else {m=new THREE.Mesh(cane,mCane);t='CANE';}
+                m.scale.setScalar(0.4+Math.random()*0.5); m.rotation.set(Math.random()*6,Math.random()*6,Math.random()*6);
+                mainGroup.add(m); particleSystem.push(new Particle(m,t));
+            }
+            const shape=new THREE.Shape(); for(let i=0;i<10;i++){const a=i*Math.PI/5+Math.PI/2, r=i%2?0.7:1.5; i?shape.lineTo(Math.cos(a)*r,Math.sin(a)*r):shape.moveTo(Math.cos(a)*r,Math.sin(a)*r);}
+            const star=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:0.4,bevelEnabled:true,bevelThickness:0.1,bevelSize:0.1,bevelSegments:2}), new THREE.MeshStandardMaterial({color:0xffdd88,emissive:0xffaa00,metalness:1,roughness:0}));
+            star.position.set(0,CONFIG.particles.treeHeight/2+1.2,0); mainGroup.add(star); mainGroup.add(photoMeshGroup);
+        }
+        function createDust(){
+            const m=new THREE.MeshBasicMaterial({color:0xffeebb,transparent:true,opacity:0.8}), g=new THREE.TetrahedronGeometry(0.08);
+            for(let i=0;i<CONFIG.particles.dustCount;i++){const me=new THREE.Mesh(g,m); me.scale.setScalar(0.5+Math.random()); mainGroup.add(me); particleSystem.push(new Particle(me,'DUST',true));}
+        }
+        function addPhotoToScene(t){
+            let w=1.2, h=1.2; if(t.image){const a=t.image.width/t.image.height; a>1?h=w/a:w=h*a;}
+            const g=new THREE.Group(), f=new THREE.Mesh(new THREE.BoxGeometry(1.4,1.4,0.05), new THREE.MeshStandardMaterial({color:CONFIG.colors.champagneGold,metalness:1,roughness:0.1}));
+            const p=new THREE.Mesh(new THREE.PlaneGeometry(w,h), new THREE.MeshBasicMaterial({map:t,side:2}));
+            p.position.z=0.04; f.scale.set(w/1.2,h/1.2,1); g.add(f); g.add(p); g.scale.setScalar(0.8);
+            photoMeshGroup.add(g); particleSystem.push(new Particle(g,'PHOTO')); updatePhotoLayout();
+        }
+        function updatePhotoLayout() {
+            const p=particleSystem.filter(x=>x.type==='PHOTO'), h=CONFIG.particles.treeHeight*0.9, b=-h/2, s=h/p.length;
+            p.forEach((pt,i)=>{
+                const y=b+s*i+s/2, nh=(y+CONFIG.particles.treeHeight/2)/CONFIG.particles.treeHeight, r=Math.max(1,CONFIG.particles.treeRadius*(1-nh))+3, a=nh*Math.PI*6+Math.PI/4;
+                pt.posTree.set(Math.cos(a)*r, y, Math.sin(a)*r);
+            });
+        }
+        function loadPredefinedImages(){const l=new THREE.TextureLoader(); CONFIG.preload.images.forEach(u=>l.load(u,t=>{t.colorSpace='srgb';addPhotoToScene(t)}))}
+        function setupEvents() {
+            window.addEventListener('resize', () => { camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth,window.innerHeight); composer.setSize(window.innerWidth,window.innerHeight); });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const dt = clock.getDelta();
             
-            // Bắt đầu hiệu ứng typewriter sau 1 giây
-            setTimeout(typeWriter, 1000);
-            
-            // Xử lý ảnh GIF nếu không tải được
-            const treeGif = document.querySelector('.tree-gif');
-            treeGif.onerror = function() {
-                // Nếu ảnh GIF không tải được, thay thế bằng cây thông CSS
-                treeGif.style.display = 'none';
-                
-                // Tạo cây thông CSS thay thế
-                const treeFallback = document.createElement('div');
-                treeFallback.classList.add('tree-fallback');
-                treeFallback.innerHTML = `
-                    <div style="position: relative; width: 200px; height: 250px;">
-                        <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); color: #ffeb3b; font-size: 2.5rem; animation: spin 4s infinite linear;">★</div>
-                        <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 80px solid #2e7d32;"></div>
-                        <div style="position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 80px solid #388e3c;"></div>
-                        <div style="position: absolute; top: 120px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 80px solid #43a047;"></div>
-                        <div style="position: absolute; width: 30px; height: 40px; background: #8d6e63; bottom: 0; left: 50%; transform: translateX(-50%); border-radius: 5px;"></div>
-                    </div>
-                `;
-                
-                document.querySelector('.tree-container').appendChild(treeFallback);
-            };
-        });
+            if (STATE.mode === 'SCATTER' && STATE.hand.detected) {
+                STATE.rotation.y += (STATE.hand.x * Math.PI * 0.9 - STATE.rotation.y) * 3.0 * dt;
+                STATE.rotation.x += (STATE.hand.y * Math.PI * 0.25 - STATE.rotation.x) * 3.0 * dt;
+            } else {
+                if (!STATE.isUserRotating) {
+                    if(STATE.mode==='TREE') { STATE.rotation.x*=0.9; STATE.rotation.y+=0.3*dt; }
+                    else STATE.rotation.y+=0.1*dt;
+                }
+            }
+
+            mainGroup.rotation.y = STATE.rotation.y; 
+            mainGroup.rotation.x = STATE.rotation.x;
+            particleSystem.forEach(p => p.update(dt, STATE.mode, STATE.focusTarget));
+            composer.render();
+        }
+        init();
     </script>
 </body>
 </html>
